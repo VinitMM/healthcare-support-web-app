@@ -29,19 +29,5 @@ This application serves as a digital touchpoint for a small to medium-sized NGO.
 2. Track their community impact through a visual dashboard.
 3. Provide 24/7 automated basic support through the chatbot.
 
-## 📖 Steps to Run Locally
-1. Clone the repository or download the files.
-2. Ensure you have `index.html`, `style.css`, and `script.js` in the same directory.
-3. Open `index.html` in any modern web browser (Chrome, Firefox, Safari, Edge).
-4. *Optional*: Use a local server (like Live Server in VS Code) for the best experience.
-
-## 🌐 Deployment
-This project is a static site and can be easily deployed:
-### Vercel / Netlify
-1. Connect your GitHub repository to Vercel/Netlify.
-2. Ensure the build command is empty (as it's a static site).
-3. Set the publish directory to the root `/`.
-4. Click **Deploy**.
-
 ---
 
