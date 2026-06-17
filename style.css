@@ -1,0 +1,241 @@
+/* 
+   CSS Design System for Healthcare Connect 
+   This file handles the visual appearance, layouts, and theme switching.
+*/
+
+:root {
+    /* Main color tokens for the 'Light' theme */
+    --primary-color: #2563eb;    /* Deep Blue - Professional healthcare feel */
+    --secondary-color: #22c55e;  /* Green - NGO/Helping vibe */
+    --accent-color: #3b82f6;     /* Lighter blue for interactions */
+    --bg-color: #f8fafc;         /* Off-white background */
+    --card-bg: #ffffff;          /* White cards */
+    --text-primary: #1e293b;     /* Dark text for readability */
+    --text-secondary: #64748b;   /* Muted text for descriptions */
+    --border-color: #e2e8f0;     /* Subtle borders */
+    --navbar-bg: rgba(255, 255, 255, 0.9); /* Translucent navbar background */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth global animations */
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Box shadows */
+}
+
+/* 
+   Dark Mode Variables 
+   When 'data-theme=dark' is set on <html>, these values overwrite the light ones.
+*/
+[data-theme="dark"] {
+    --bg-color: #0f172a;        /* Very dark navy */
+    --card-bg: #1e293b;         /* Slate blue cards */
+    --text-primary: #f1f5f9;    /* Near-white text */
+    --text-secondary: #94a3b8;  /* Muted grey text */
+    --border-color: #334155;    /* Darker borders */
+    --navbar-bg: rgba(15, 23, 42, 0.9); /* Dark translucent navbar */
+}
+
+/* Global Reset: Remove browser default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Smooth scrolling when clicking internal links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Base Body Style */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: var(--transition); /* Handles smooth theme transitions */
+    overflow-x: hidden;
+}
+
+/* Layout container to center content on large screens */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Navbar: Fixed at the top with glassmorphism effect */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-bg);
+    backdrop-filter: blur(8px); /* Blur background behind navbar */
+    z-index: 1000;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Logo styling */
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.logo i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.logo span {
+    color: var(--secondary-color);
+}
+
+/* Navigation link list using Flexbox */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* Theme Toggle Button styling */
+#theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+/* Button Component base styles */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Primary Brand Button */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+/* Hover effect with lift and shadow */
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+/* Hero Section: Centered text and image */
+.hero {
+    padding: 8rem 0 4rem;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+}
+
+.hero .container {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+
+/* Large Hero Title styling */
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+/* Floating animation for the hero image */
+.hero-image {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Stats Cards: Responsive grid layout */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+/* Individual Stat Card styling */
+.stat-card {
+    background-color: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+/* Form Container Design */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--card-bg);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+/* Floating Chat Button: Fixed in the bottom right */
+.chat-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+}
+
+/* Chat Widget Container */
+.chat-container {
+    position: fixed;
+    bottom: 6rem;
+    right: 2rem;
+    width: 350px;
+    height: 500px;
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    display: none; /* Hidden until toggled */
+    flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Chat bubble styling: Left for Bot, Right for User */
+.chat-msg.bot {
+    background-color: var(--bg-color);
+    align-self: flex-start;
+}
+
+.chat-msg.user {
+    background-color: var(--primary-color);
+    color: white;
+    align-self: flex-end;
+}
+
+/* Responsive Media Query for Tablets and Phones */
+@media (max-width: 768px) {
+    .nav-links { display: none; } /* Hide desktop nav */
+    .hero .container { flex-direction: column; text-align: center; } /* Stack hero elements */
+    .form-group-row { flex-direction: column; gap: 0; } /* Stack form groups vertically */
+}
