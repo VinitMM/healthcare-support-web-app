@@ -1,212 +1,244 @@
 /**
- * script.js - Interactive functions for Healthcare Connect NGO
- * This script handles theme switching, form validation, storage, and the chatbot.
+ * script.js - Enhanced Logic for Healthcare Connect
+ * Handles Premium UI interactions, Bot logic, and Form robust processing.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. THEME TOGGLE LOGIC ---
-    // Select the toggle button and check for saved theme in localStorage
+    // --- 1. PREMIUM UI HOOKS ---
+    const nav = document.getElementById('main-nav');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
     const themeToggle = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    
-    // Apply the current theme globally on load
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    updateThemeIcon(currentTheme);
 
-    // Click listener to switch between light and dark
-    themeToggle.addEventListener('click', () => {
-        let theme = document.documentElement.getAttribute('data-theme');
-        let newTheme = theme === 'light' ? 'dark' : 'light';
-        
-        // Update the HTML attribute which triggers CSS variable changes
-        document.documentElement.setAttribute('data-theme', newTheme);
-        // Save user preference
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
+    // Scroll Effect for Navbar
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
     });
 
-    // Helper: changes the icon between a Sun and Moon
-    function updateThemeIcon(theme) {
+    // Mobile Menu Toggle logic
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
+        });
+    }
+
+    // Close menu when clicking items (Mobile UX)
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        });
+    });
+
+    // --- 2. THEME PERSISTENCE ---
+    const savedTheme = localStorage.getItem('hc_theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    updateThemeUI(savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const current = document.body.getAttribute('data-theme');
+            const target = current === 'light' ? 'dark' : 'light';
+            
+            document.body.setAttribute('data-theme', target);
+            localStorage.setItem('hc_theme', target);
+            updateThemeUI(target);
+        });
+    }
+
+    function updateThemeUI(theme) {
         const icon = themeToggle.querySelector('i');
         if (theme === 'dark') {
-            icon.classList.replace('fa-moon', 'fa-sun'); // Sun icon for dark mode
+            icon.className = 'fas fa-sun';
         } else {
-            icon.classList.replace('fa-sun', 'fa-moon'); // Moon icon for light mode
+            icon.className = 'fas fa-moon';
         }
     }
 
-    // --- 2. IMPACT DASHBOARD LOGIC ---
-    // Updates the counter on the "Our Impact" section
+    // --- 3. FORM PROCESSING & PERSISTENCE ---
+    const supportForm = document.getElementById('patient-support-form');
+    const successScreen = document.getElementById('success-message');
     const requestCountEl = document.getElementById('request-count');
 
-    function updateDashboard() {
-        // Retrieve the array of requests from storage, or use empty array if none
-        const requests = JSON.parse(localStorage.getItem('healthcare_requests')) || [];
-        // Update the visual text to show how many items are in the array
-        requestCountEl.innerText = requests.length;
-    }
-    // Run update right after the page loads
-    updateDashboard();
-
-    // --- 3. PATIENT SUPPORT FORM LOGIC ---
-    const supportForm = document.getElementById('patient-support-form');
-    const confirmationMsg = document.getElementById('confirmation-msg');
-
-    // Handle form submission
-    supportForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Stop page from refreshing
-        
-        // Run our custom field verification
-        if (validateForm()) {
-            // Collect all inputs as a JavaScript Object
-            const formData = new FormData(supportForm);
-            const request = Object.fromEntries(formData.entries());
-            
-            // Add metadata for tracking
-            request.id = Date.now();
-            request.timestamp = new Date().toISOString();
-
-            // Visual feedback: Show the spinner, disable the clicking
-            const btn = document.getElementById('submitBtn');
-            const btnText = btn.querySelector('.btn-text');
-            const loader = btn.querySelector('.loader');
-
-            btnText.style.display = 'none';
-            loader.style.display = 'block';
-            btn.disabled = true;
-
-            // Artificial delay to simulate network communication
-            setTimeout(() => {
-                // Save the new request to the existing list in browser memory
-                const requests = JSON.parse(localStorage.getItem('healthcare_requests')) || [];
-                requests.push(request);
-                localStorage.setItem('healthcare_requests', JSON.stringify(requests));
-
-                // Switch visible UI components
-                supportForm.style.display = 'none';
-                confirmationMsg.style.display = 'block';
-                updateDashboard(); // Refresh counter on dashboard
-                
-                // Restore button state
-                btnText.style.display = 'block';
-                loader.style.display = 'none';
-                btn.disabled = false;
-            }, 1000);
+    // Initialize/Refresh Dashboard
+    function syncDashboard() {
+        try {
+            const data = JSON.parse(localStorage.getItem('hc_requests')) || [];
+            if (requestCountEl) requestCountEl.innerText = data.length + 245; // Base offset + user entries
+        } catch (e) {
+            console.error("Storage Error", e);
         }
-    });
+    }
+    syncDashboard();
 
-    // Validates inputs: Check length, phone format, and email format
+    if (supportForm) {
+        supportForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                const submitBtn = document.getElementById('submitBtn');
+                const loader = document.getElementById('loader');
+                const btnContent = submitBtn.querySelector('.btn-content');
+
+                // Visual Loading State
+                btnContent.style.opacity = '0';
+                loader.style.display = 'block';
+                submitBtn.disabled = true;
+
+                // Collect Data
+                const formData = new FormData(supportForm);
+                const payload = Object.fromEntries(formData.entries());
+                payload.date = new Date().toLocaleString();
+
+                // Simulated API Delay
+                setTimeout(() => {
+                    const existing = JSON.parse(localStorage.getItem('hc_requests')) || [];
+                    existing.push(payload);
+                    localStorage.setItem('hc_requests', JSON.stringify(existing));
+
+                    supportForm.style.display = 'none';
+                    successScreen.style.display = 'block';
+                    syncDashboard();
+
+                    // Cleanup button
+                    btnContent.style.opacity = '1';
+                    loader.style.display = 'none';
+                    submitBtn.disabled = false;
+                }, 1500);
+            }
+        });
+    }
+
     function validateForm() {
-        let isValid = true;
+        let valid = true;
         const name = document.getElementById('fullName');
         const mobile = document.getElementById('mobile');
         const email = document.getElementById('email');
 
-        // Clear existing error messages first
-        document.querySelectorAll('.error-msg').forEach(el => el.innerText = '');
+        // Reset
+        document.querySelectorAll('.error-text').forEach(tx => tx.innerText = '');
 
-        // Name check: must be longer than 2 chars
-        if (name.value.trim().length < 3) {
-            document.getElementById('nameError').innerText = 'Name must be at least 3 characters.';
-            isValid = false;
+        if (name.value.length < 3) {
+            document.getElementById('nameError').innerText = "Please enter your full name.";
+            valid = false;
         }
 
-        // Mobile check: exactly 10 digits
-        const phoneRegex = /^[0-9]{10}$/;
-        if (!phoneRegex.test(mobile.value)) {
-            document.getElementById('mobileError').innerText = 'Please enter a valid 10-digit mobile number.';
-            isValid = false;
+        if (!/^\d{10}$/.test(mobile.value)) {
+            document.getElementById('mobileError').innerText = "Enter a valid 10-digit number.";
+            valid = false;
         }
 
-        // Email check: standard pattern verification
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value)) {
-            document.getElementById('emailError').innerText = 'Please enter a valid email address.';
-            isValid = false;
+        if (!/\S+@\S+\.\S+/.test(email.value)) {
+            document.getElementById('emailError').innerText = "Invalid email format.";
+            valid = false;
         }
 
-        return isValid;
+        return valid;
     }
 
-    // Resets the UI so a user can file another request
+    // Global reset exposed to window
     window.resetForm = () => {
         supportForm.reset();
         supportForm.style.display = 'block';
-        confirmationMsg.style.display = 'none';
+        successScreen.style.display = 'none';
     };
 
-    // --- 4. HEALTH BOT (CHATBOT) LOGIC ---
+    // --- 4. IMPROVED AI CHATBOT LOGIC ---
     const chatToggle = document.getElementById('chat-toggle');
-    const chatContainer = document.getElementById('chat-container');
+    const chatPanel = document.getElementById('chat-container');
+    const closeChat = document.getElementById('close-chat');
     const chatInput = document.getElementById('chat-input');
     const sendChat = document.getElementById('send-chat');
-    const chatBody = document.getElementById('chat-body');
+    const chatMessages = document.getElementById('chat-body');
 
-    // Pre-defined responses mapped to user keywords
-    const faqResponses = {
-        "volunteer": "To request a volunteer, please fill out the 'Patient Support Form' and select 'Volunteer Support'.",
-        "hours": "Office hours: 9 AM - 6 PM Mon-Sat. Emergency support is 24/7 via the form.",
-        "contact": "Email: contact@healthcareconnect.org | Helpline: +91 98765 43210.",
-        "documents": "Required: ID proof and latest medical prescription.",
-        "help": "I can assist with: volunteers, working hours, contact info, and documents.",
-        "hi": "Hello! Looking for healthcare assistance? Feel free to ask me anything."
+    if (chatToggle) {
+        chatToggle.addEventListener('click', () => {
+            chatPanel.classList.toggle('active');
+        });
+    }
+
+    if (closeChat) {
+        closeChat.addEventListener('click', () => {
+            chatPanel.classList.remove('active');
+        });
+    }
+
+    const responses = {
+        "volunteer": "Our volunteers are the heart of NGO. You can apply to be one by clicking the 'Volunteer Home Support' option in the form above!",
+        "hours": "We operate 24/7 for emergency guidance. Our physical offices are open Mon-Sat, 9 AM to 6 PM.",
+        "documents": "For medical funding, please keep your ID proof and latest doctor prescription handy.",
+        "help": "I can help you with Information, Form Guidance, and NGO mission details. Type 'hours' or 'volunteer'!",
+        "contact": "Email us at support@healthcareconnect.org or use the emergency guidance option in the form."
     };
 
-    // Open/Close Chat events
-    chatToggle.addEventListener('click', () => {
-        chatContainer.classList.toggle('active'); // CSS handles the 'display:flex'
-    });
-
-    document.getElementById('close-chat').addEventListener('click', () => {
-        chatContainer.classList.remove('active');
-    });
-
-    // Send logic for button click and 'Enter' key
-    sendChat.addEventListener('click', handleChat);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleChat();
-    });
-
-    function handleChat() {
+    function sendMessage() {
         const text = chatInput.value.trim();
-        const query = text.toLowerCase();
-        if (!query) return;
+        if (!text) return;
 
-        // Show what user typed
-        appendMessage('user', text);
+        addMsg('user', text);
         chatInput.value = '';
+        chatPanel.classList.add('searching'); // Start pulsate animation
 
-        // Bot thinking delay
+        // Show "typing..." indicator
+        const typingId = 'typing-' + Date.now();
+        const typingMsg = document.createElement('div');
+        typingMsg.className = 'msg bot typing';
+        typingMsg.id = typingId;
+        typingMsg.innerHTML = '<p><span>.</span><span>.</span><span>.</span></p>';
+        chatMessages.appendChild(typingMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
         setTimeout(() => {
-            let response = "I'm sorry, I didn't quite understand. Try asking about 'volunteers', 'hours', 'contact', or 'documents'.";
+            // Remove typing indicator
+            const el = document.getElementById(typingId);
+            if (el) el.remove();
+
+            const lowText = text.toLowerCase();
+            let matched = "I'm here to browse our FAQs. Could you ask about 'volunteers', 'hours', 'contact', or 'medical help'?";
             
-            // Loop through keyword map to find a match
-            for (let key in faqResponses) {
-                if (query.includes(key)) {
-                    response = faqResponses[key];
-                    break;
+            // Expanded logic
+            if (lowText.includes('hello') || lowText.includes('hi')) {
+                matched = "Hello! I'm your Healthcare Assistant. How can I support you today?";
+            } else if (lowText.includes('thank')) {
+                matched = "You're very welcome! We're here to help. Is there anything else?";
+            } else {
+                for (let key in responses) {
+                    if (lowText.includes(key)) {
+                        matched = responses[key];
+                        break;
+                    }
                 }
             }
-
-            // Show Bot's response
-            appendMessage('bot', response);
-        }, 500);
+            chatPanel.classList.remove('searching'); // Remove searching state
+            addMsg('bot', matched);
+        }, 1200);
     }
 
-    // Helper: Creates a message div and scrolls to bottom
-    function appendMessage(sender, text) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `chat-msg ${sender}`;
-        
-        let content = `<p>${text}</p>`;
-        // Always attach the medical disclaimer if the bot is talking
-        if (sender === 'bot') {
-            content += `<small>AI Assistant: I can help with general information only and do not provide medical diagnosis.</small>`;
-        }
-        
-        msgDiv.innerHTML = content;
-        chatBody.appendChild(msgDiv);
-        chatBody.scrollTop = chatBody.scrollHeight; // Auto-scroll
+    function addMsg(type, text) {
+        const msg = document.createElement('div');
+        msg.className = `msg ${type}`;
+        msg.innerHTML = `<p>${text}</p>${type === 'bot' ? '<small>Health AI Assistant</small>' : ''}`;
+        chatMessages.appendChild(msg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
+    sendChat.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
 });

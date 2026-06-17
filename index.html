@@ -1,128 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Standard meta tags for character encoding and mobile responsiveness -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare Connect | NGO Patient Support</title>
-    
-    <!-- External stylesheet for our application's design -->
+    <title>Healthcare Connect | Premium Patient Support</title>
+    <!-- CSS link -->
     <link rel="stylesheet" href="style.css">
-    
-    <!-- Loading "Inter" font from Google Fonts for a modern, clean typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome: Used for icons like the medical cross, moon, and robot -->
+    <!-- Premium Search Optimization -->
+    <meta name="description" content="Connecting patients with world-class NGO support and volunteer networks.">
+    <!-- Google Fonts: Outfit for a more premium, modern feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body data-theme="light">
+    <!-- Background Decoration for Premium feel -->
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
     <header>
-        <!-- Navbar: Contains the logo and navigation links -->
-        <nav class="navbar">
-            <div class="container">
-                <!-- Logo: Links back to the top of the page -->
+        <nav class="navbar" id="main-nav">
+            <div class="container nav-container">
                 <a href="#" class="logo">
-                    <i class="fas fa-hand-holding-medical"></i> Healthcare <span>Connect</span>
+                    <div class="logo-icon"><i class="fas fa-hand-holding-medical"></i></div>
+                    <span>Healthcare <strong>Connect</strong></span>
                 </a>
                 
-                <!-- Nav Links: Target specific sections using IDs -->
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#support">Get Support</a></li>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <!-- Theme switcher container for dark/light mode toggle -->
-                    <li class="theme-switch-wrapper">
-                        <button id="theme-toggle" title="Toggle Light/Dark Mode">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                    </li>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#home" class="nav-item">Home</a></li>
+                    <li><a href="#dashboard" class="nav-item">Our Impact</a></li>
+                    <li><a href="#support" class="nav-item">Get Support</a></li>
                 </ul>
-                
-                <!-- Mobile Menu Icon (displayed only on small screens) -->
-                <div class="menu-btn">
-                    <i class="fas fa-bars"></i>
+
+                <div class="nav-actions">
+                    <button id="theme-toggle" class="icon-btn" aria-label="Toggle Dark Mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="menu-toggle" id="menu-toggle" aria-label="Open Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="#support" class="btn btn-primary hide-mobile">Request Help</a>
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
-        <!-- Hero Section: The first high-impact area visible to users -->
-        <section id="home" class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <!-- Heading with highlighting on the main mission -->
-                    <h1>Connecting Patients with <span>Compassionate Support</span></h1>
-                    <p>We bridge the gap between patients in need and volunteers/NGOs ready to help. Get medicine, doctor consultations, and emergency guidance today.</p>
-                    <!-- Call to action buttons -->
-                    <div class="hero-btns">
-                        <a href="#support" class="btn btn-primary">Request Support</a>
-                        <a href="#dashboard" class="btn btn-outline">View Impact</a>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <span class="badge">Trusted by 50+ NGOs</span>
+                    <h1>Connecting Hearts, <br><span>Healing Lives.</span></h1>
+                    <p>Transparent, fast, and compassionate healthcare support for those who need it most. Join our community of 10,000+ volunteers today.</p>
+                    <div class="hero-cta">
+                        <a href="#support" class="btn btn-primary btn-lg">Apply for Support <i class="fas fa-arrow-right"></i></a>
+                        <a href="#dashboard" class="btn btn-glass btn-lg">View Dashboard</a>
                     </div>
                 </div>
-                <!-- Visual illustration related to healthcare -->
-                <div class="hero-image">
-                    <img src="https://img.freepik.com/free-vector/doctors-concept-illustration_114360-1515.jpg" alt="Healthcare Illustration">
+                <div class="hero-visual">
+                    <div class="visual-card floating">
+                        <img src="https://img.freepik.com/free-vector/doctors-concept-illustration_114360-1515.jpg" alt="Healthcare Support">
+                        <div class="mini-stat">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Verified</strong>
+                                <span>Support Network</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Dashboard Section: Shows real-time request count from LocalStorage -->
-        <section id="dashboard" class="dashboard">
+        <!-- Stats / Dashboard -->
+        <section id="dashboard" class="stats-section">
             <div class="container">
-                <!-- Section intro text -->
-                <div class="section-header">
-                    <h2>Our Impact</h2>
-                    <p>Tracking our collective efforts to help the community.</p>
+                <div class="section-title center">
+                    <h2>Living Proof of <span>Impact</span></h2>
+                    <p>Real-time tracking of our service to the community.</p>
                 </div>
-                <!-- 3-column stats layout -->
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="fas fa-users"></i>
-                        <!-- This ID is targeted by script.js to show the total requests -->
-                        <h3 id="request-count">0</h3>
-                        <p>Support Requests</p>
+                    <div class="card stat-card">
+                        <div class="stat-icon"><i class="fas fa-file-medical"></i></div>
+                        <h3 id="request-count">245</h3>
+                        <p>Active Requests</p>
                     </div>
-                    <div class="stat-card">
-                        <i class="fas fa-user-md"></i>
-                        <h3>24/7</h3>
-                        <p>Emergency Guidance</p>
+                    <div class="card stat-card">
+                        <div class="stat-icon"><i class="fas fa-user-clock"></i></div>
+                        <h3>12h</h3>
+                        <p>Avg. Response Time</p>
                     </div>
-                    <div class="stat-card">
-                        <i class="fas fa-heart"></i>
-                        <h3>Volunteer</h3>
-                        <p>Support Network</p>
+                    <div class="card stat-card">
+                        <div class="stat-icon"><i class="fas fa-award"></i></div>
+                        <h3>100%</h3>
+                        <p>Volunteer Success</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Support Form Section: This is where users enter their data -->
-        <section id="support" class="support-form">
+        <!-- Support Form -->
+        <section id="support" class="form-section">
             <div class="container">
-                <div class="form-container">
+                <div class="glass-container form-wrapper">
                     <div class="form-header">
-                        <h2>Patient Support Form</h2>
-                        <p>Fill in the details below to request medical assistance.</p>
+                        <h2>Support Application</h2>
+                        <p>Please provide accurate details for faster verification.</p>
                     </div>
                     
-                    <!-- Form with multiple field types and validation placeholders -->
-                    <form id="patient-support-form">
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
-                                <span class="error-msg" id="nameError"></span> <!-- Error message spot -->
+                    <form id="patient-support-form" class="premium-form">
+                        <div class="grid-2">
+                            <div class="input-group">
+                                <label>Full Name</label>
+                                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                                <span class="error-text" id="nameError"></span>
                             </div>
-                            <div class="form-group sm">
-                                <label for="age">Age</label>
-                                <input type="number" id="age" name="age" min="1" max="150" placeholder="25" required>
+                            <div class="input-group">
+                                <label>Age</label>
+                                <input type="number" id="age" name="age" placeholder="Age" min="1" max="120" required>
                             </div>
                         </div>
 
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
+                        <div class="grid-2">
+                            <div class="input-group">
+                                <label>Gender</label>
                                 <select id="gender" name="gender" required>
                                     <option value="" disabled selected>Select Gender</option>
                                     <option value="male">Male</option>
@@ -130,102 +132,124 @@
                                     <option value="other">Other</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="mobile">Mobile Number</label>
-                                <input type="tel" id="mobile" name="mobile" placeholder="10 Digit Number" required>
-                                <span class="error-msg" id="mobileError"></span> <!-- Error message spot -->
+                            <div class="input-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="mobile" name="mobile" placeholder="10-digit mobile" required>
+                                <span class="error-text" id="mobileError"></span>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                            <span class="error-msg" id="emailError"></span> <!-- Error message spot -->
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="email@example.com" required>
+                            <span class="error-text" id="emailError"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label for="concern">Health Issue / Medical Concern</label>
-                            <input type="text" id="concern" name="concern" placeholder="Brief description of the issue" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="typeOfHelp">Type of Help Required</label>
+                        <div class="input-group">
+                            <label>Assistance Type</label>
                             <select id="typeOfHelp" name="typeOfHelp" required>
-                                <option value="" disabled selected>Select type</option>
-                                <option value="doctor">Doctor Consultation</option>
-                                <option value="volunteer">Volunteer Support</option>
-                                <option value="medicine">Medicine Support</option>
+                                <option value="" disabled selected>How can we help?</option>
+                                <option value="doctor">Free Doctor Consultation</option>
+                                <option value="volunteer">Volunteer Home Support</option>
+                                <option value="medicine">Medicine Fund Support</option>
                                 <option value="emergency">Emergency Guidance</option>
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="message">Additional Message</label>
-                            <textarea id="message" name="message" rows="4" placeholder="Any extra information..."></textarea>
+                        <div class="input-group">
+                            <label>Medical Concern</label>
+                            <textarea id="concern" name="concern" rows="3" placeholder="Briefly describe the health issue..." required></textarea>
                         </div>
 
-                        <!-- Submission button with a hidden loader (spinner) -->
-                        <button type="submit" class="btn btn-submit" id="submitBtn">
-                            <span class="btn-text">Submit Request</span>
-                            <div class="loader" id="form-loader" style="display: none;"></div>
-                        </button>
+                        <div class="input-group">
+                            <label>Additional Message (Optional)</label>
+                            <textarea id="message" name="message" rows="2" placeholder="Any specific requirements?"></textarea>
+                        </div>
+
+                        <div class="form-footer">
+                            <button type="submit" id="submitBtn" class="btn btn-primary btn-block">
+                                <span class="btn-content">Submit Application</span>
+                                <div class="loader" id="loader" style="display: none;"></div>
+                            </button>
+                        </div>
                     </form>
-                    
-                    <!-- Confirmation message (hidden by default, shown after correct submission) -->
-                    <div id="confirmation-msg" class="confirmation-msg" style="display: none;">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Request Submitted!</h3>
-                        <p>Thank you. We have received your request and will contact you shortly.</p>
-                        <button class="btn btn-outline" onclick="resetForm()">New Request</button>
+
+                    <!-- Success Message -->
+                    <div id="success-message" class="success-screen" style="display: none;">
+                        <div class="success-icon"><i class="fas fa-check-double"></i></div>
+                        <h3>Application Received!</h3>
+                        <p>Our team will review your request and get back to you within 24 hours.</p>
+                        <button class="btn btn-glass" onclick="resetForm()">Submit Another</button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Chatbot Toggle: The small floating bubble that opens the chat -->
-    <div id="chat-toggle" class="chat-toggle">
-        <i class="fas fa-comments"></i>
-    </div>
+    <!-- Floating Chatbot Hero -->
+    <div class="chatbot-wrapper">
+        <button id="chat-toggle" class="chat-fab" aria-label="AI Assistant">
+            <i class="fas fa-robot"></i>
+            <span class="chat-badge">1</span>
+        </button>
 
-    <!-- Chatbot Interface: The actual chat window -->
-    <div id="chat-container" class="chat-container">
-        <!-- Header of the chat window with info and close button -->
-        <div class="chat-header">
-            <div class="chat-header-info">
-                <i class="fas fa-robot"></i>
-                <div>
-                    <h4>Health Bot</h4>
-                    <span>Online Helper</span>
+        <div id="chat-container" class="chat-panel">
+            <div class="chat-header">
+                <div class="bot-info">
+                    <div class="bot-avatar"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <h4>Health AI</h4>
+                        <span><span class="status-dot"></span> Online</span>
+                    </div>
+                </div>
+                <button class="close-btn" id="close-chat"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="chat-body" class="chat-messages">
+                <div class="msg bot">
+                    <p>Welcome to Healthcare Connect! I am here to answer your FAQs and guide you through our process.</p>
+                    <small>Disclaimer: I am an AI and cannot provide medical diagnosis.</small>
                 </div>
             </div>
-            <button id="close-chat"><i class="fas fa-times"></i></button>
-        </div>
-        
-        <!-- Content area for chat bubbles -->
-        <div id="chat-body" class="chat-body">
-            <div class="chat-msg bot">
-                <p>Hello! I am your AI Assistant. How can I help you today?</p>
-                <!-- Mandatory Medical Disclaimer -->
-                <small>AI Assistant: I can help with general information only and do not provide medical diagnosis.</small>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" placeholder="Ask about 'volunteers' or 'hours'...">
+                <button id="send-chat" class="send-btn"><i class="fas fa-paper-plane"></i></button>
             </div>
-        </div>
-        
-        <!-- Footer for typing messages -->
-        <div class="chat-footer">
-            <input type="text" id="chat-input" placeholder="Ask a question...">
-            <button id="send-chat"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <!-- Final Footer: Global site info -->
-    <footer class="main-footer">
-        <div class="container">
-            <p>&copy; 2026 Healthcare Connect NGO. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon"><i class="fas fa-hand-holding-medical"></i></div>
+                    <span>Healthcare <strong>Connect</strong></span>
+                </a>
+                <p>Empowering patients through technology and community support since 2024.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#support">Get Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Healthcare Connect NGO. Designed with ❤️ for Impact.</p>
         </div>
     </footer>
 
-    <!-- Core logic script linked at the bottom for faster DOM calculation -->
+    <!-- Custom Script -->
     <script src="script.js"></script>
 </body>
 </html>
