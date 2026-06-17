@@ -44,4 +44,4 @@ This project is a static site and can be easily deployed:
 4. Click **Deploy**.
 
 ---
-*Created as a Healthcare NGO Internship Assignment.*
+
